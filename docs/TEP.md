@@ -6,16 +6,24 @@ Protocol for transforming Task Master tasks into detailed implementation plans w
 ## Commands
 
 ### `/task-enrich`
-Analyzes current task following 7-step protocol:
+Analyzes current task following enhanced 8-step protocol:
 1. Complexity analysis (1-10 scale)
 2. Subtask division by logical layers
-3. Context7 documentation lookup
+3. Context7 documentation lookup (MANDATORY per subtask)
 4. Parallelization strategy evaluation
 5. TDD test structure definition
 6. Create enriched JSON file
-7. Generate informed TodoWrite
+6.5. Generate parallelization TODOs
+7. Generate balanced TodoWrite
 
 **Output:** `.taskmaster/enriched/<id>-enriched.json`
+
+**TODO Distribution Target:**
+- 40% TDD (test-driven development)
+- 20% Doc (documentation consultation)
+- 20% Impl (implementation)
+- 10% Parallel (orchestration)
+- 10% Validate (checkpoints)
 
 ### `/session-save`
 Preserves current context before /clear:
@@ -52,11 +60,30 @@ Restores context after /clear:
       "minimalImplementation": {"keyComponents": []},
       "integrationPoints": []
     },
-    "documentation": {"library": {"contextId": "/org/proj"}}
+    "documentation": {
+      "library": {"contextId": "/org/proj"},
+      "mandatoryConsultation": true,
+      "topics": ["specific-pattern", "best-practices"]
+    }
   }],
   "parallelization": {
     "strategy": "sequential|parallel|hybrid",
-    "phases": [{"phase": 1, "subtasks": ["1.1"]}]
+    "phases": [{"phase": 1, "subtasks": ["1.1"]}],
+    "subagentAllocation": {
+      "agent1": ["subtask1.1", "subtask1.2"],
+      "agent2": ["subtask1.3"],
+      "supervisor": "validation"
+    }
+  },
+  "todoGeneration": {
+    "distribution": {
+      "TDD": 0.4,
+      "Doc": 0.2,
+      "Impl": 0.2,
+      "Parallel": 0.1,
+      "Validate": 0.1
+    },
+    "mandatoryPerSubtask": ["Doc"]
   }
 }
 ```
@@ -94,12 +121,25 @@ long analysis → /session-save → /clear → /context-recover → continue
 
 ## Todo Prefix Convention
 ```
-[TEP:taskId][Subtask:x.y][TDD:Phase] Description
+[TEP:taskId][Type:category][Target:specific] Description
 ```
-- TEP: Task reference
-- Subtask: Current subtask 
-- TDD: Red|Green|Refactor|Integrate
-- Checkpoint: Update points
+- **TEP**: Task reference (e.g., TEP:1)
+- **Type**: Todo category
+  - `Doc`: Documentation consultation (Context7)
+  - `TDD`: Test-driven development (Red/Green/Refactor)
+  - `Impl`: Implementation work
+  - `Parallel`: Subagent orchestration
+  - `Validate`: Checkpoints/supervision
+- **Target**: Specific target (e.g., SQLAlchemy, Backend, Subtask:1.1)
+
+### Examples:
+```
+[TEP:1][Doc:FastAPI] Consult /tiangolo/fastapi for middleware patterns
+[TEP:1][TDD:Red] Write test_database_connection
+[TEP:1][Impl:Backend] Create FastAPI app with consulted patterns
+[TEP:1][Parallel:Launch] Deploy 3 subagents for concurrent work
+[TEP:1][Validate:Integration] Supervisor validates cross-layer compatibility
+```
 
 ## When to Use
 
@@ -116,10 +156,21 @@ long analysis → /session-save → /clear → /context-recover → continue
 
 ## Key Benefits
 - Systematic analysis replaces ad-hoc planning
-- Pre-identified documentation saves search time
+- Pre-identified documentation MUST be consulted during implementation
 - TDD structure defined before coding starts
 - Context persists across sessions
-- Parallelization opportunities identified early
+- Parallelization opportunities executed via subagents
+- Balanced TODO distribution prevents over-emphasis on any single aspect
+
+## Critical Implementation Rules
+
+1. **Documentation is MANDATORY**: Every subtask must have at least one [Doc] TODO that references the contextId from enriched JSON. This documentation MUST be consulted BEFORE implementation.
+
+2. **Parallelization MUST be executed**: If strategy identifies parallel opportunities, [Parallel] TODOs must be generated and subagents deployed.
+
+3. **TODO Balance**: No single type should exceed 50% of total TODOs. Target distribution must be maintained.
+
+4. **Subagent Usage**: For parallel execution, use Task() tool to deploy subagents. Main agent supervises with [Validate] TODOs.
 
 ## Integration Notes
 - Never modifies `tasks.json` directly
