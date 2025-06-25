@@ -1,6 +1,6 @@
-# Task Enrichment Protocol (TEP)
+# Task Enrichment Protocol (TEP) v2
 
-Analiza y enriquece la tarea actual de Task Master para crear todos más informados y aplicar mejores prácticas de desarrollo.
+Analiza y enriquece la tarea actual de Task Master para crear todos más informados y aplicar mejores prácticas de desarrollo con distribución balanceada.
 
 ## Uso
 
@@ -10,13 +10,14 @@ Analiza y enriquece la tarea actual de Task Master para crear todos más informa
 
 ## Descripción
 
-Este protocolo analiza profundamente una tarea de Task Master y genera un archivo enriquecido con:
+Este protocolo mejorado (v2) analiza profundamente una tarea de Task Master y genera un archivo enriquecido con:
 - Análisis de complejidad y tecnologías
 - División en subtareas lógicas
-- Estructura TDD completa
-- Referencias de documentación
-- Estrategia de paralelización
-- Checkpoints de actualización
+- Estructura TDD completa (40% máximo de TODOs)
+- Referencias de documentación OBLIGATORIAS por subtarea (20% de TODOs)
+- Estrategia de paralelización con TODOs explícitos (10% de TODOs)
+- Implementación balanceada (20% de TODOs)
+- Checkpoints de validación (10% de TODOs)
 
 ## Pasos del Protocolo
 
@@ -98,6 +99,13 @@ Para cada subtarea, define:
 
 **Ubicación:** `.taskmaster/enriched/<task-id>-enriched.json`
 
+### 6.5. Generar TODOs de Paralelización (NUEVO EN v2)
+
+**OBLIGATORIO:** Si la estrategia de paralelización identifica oportunidades, DEBES generar TODOs explícitos:
+- `[Parallel:Launch]` - Para lanzar subagentes
+- `[Parallel:Coordinate]` - Para sincronización
+- `[Parallel:Merge]` - Para integración de resultados
+
 **Estructura:**
 ```json
 {
@@ -138,7 +146,9 @@ Para cada subtarea, define:
           "contextId": "context7-id",
           "topics": ["topic1", "topic2"],
           "keySnippets": ["snippet-ref"]
-        }
+        },
+        "mandatoryConsultation": true,
+        "consultationTodos": ["[Doc:library] Consult documentation before implementation"]
       }
     }
   ],
@@ -161,25 +171,49 @@ Para cada subtarea, define:
   "todoGenerationGuidance": {
     "groupingStrategy": "by-subtask|by-technology|by-test-cycle",
     "priorityOrder": ["subtask-ids in order"],
-    "estimatedTotalTodos": number
+    "estimatedTotalTodos": number,
+    "mandatoryDistribution": {
+      "TDD": 0.4,
+      "Doc": 0.2,
+      "Impl": 0.2,
+      "Parallel": 0.1,
+      "Validate": 0.1
+    },
+    "mandatoryPerSubtask": ["Doc"]
   }
 }
 ```
 
-### 7. Generar TodoWrite Informado
+### 7. Generar TodoWrite Balanceado (v2)
 
-Con el archivo enriquecido, genera todos que incluyan:
+**DISTRIBUCIÓN OBLIGATORIA:**
+- 40% TDD - Test-driven development
+- 20% Doc - Consulta de documentación (OBLIGATORIO por subtarea)
+- 20% Impl - Implementación pura
+- 10% Parallel - Orquestación de subagentes
+- 10% Validate - Checkpoints y validación
 
-1. **Referencia al enriquecimiento:** `[TEP:1-enriched.json]`
-2. **Fase TDD actual:** `[TDD:Red]`, `[TDD:Green]`, `[TDD:Refactor]`
-3. **Subtarea asociada:** `[Subtask:1.1]`
-4. **Documentación a consultar:** `[Doc:FastAPI-testing]`
-5. **Checkpoint:** `[Checkpoint:after-db-setup]`
+**Tipos de TODO y formato:**
+1. `[TEP:1][TDD:Red]` - Escribir tests que fallan
+2. `[TEP:1][Doc:SQLite]` - Consultar documentación ANTES de implementar
+3. `[TEP:1][Impl:Core]` - Implementación de funcionalidad
+4. `[TEP:1][Parallel:Launch]` - Lanzar subagentes para ejecución paralela
+5. `[TEP:1][Validate:Integration]` - Validar y supervisar progreso
 
-**Ejemplo de Todo:**
+**Ejemplos de TODOs v2:**
 ```
-"[TEP:1][Subtask:1.1][TDD:Red] Write test_database_wal_mode_enabled - verify SQLite WAL pragma"
+"[TEP:1][Doc:SQLAlchemy] Consult /sqlalchemy/sqlalchemy docs for engine setup patterns"
+"[TEP:1][TDD:Red] Write test_database_wal_mode_enabled - verify SQLite WAL pragma"
+"[TEP:1][Parallel:Launch] Deploy 3 subagents for DB/Backend/Frontend parallel work"
+"[TEP:1][Impl:DB] Implement DatabaseConfig class using Context7 patterns"
+"[TEP:1][Validate:Checkpoint] Verify all subtask integrations work together"
 ```
+
+**REGLAS CRÍTICAS:**
+- Cada subtarea DEBE tener al menos 1 TODO [Doc]
+- Los TODOs [Doc] deben ejecutarse ANTES que [Impl]
+- Si hay paralelización, DEBE haber TODOs [Parallel]
+- Mantener distribución 40/20/20/10/10 estrictamente
 
 ## Proceso de Ejecución
 
@@ -190,29 +224,41 @@ Con el archivo enriquecido, genera todos que incluyan:
 5. **Genera** TodoWrite basados en el enriquecimiento
 6. **Referencia** el archivo durante toda la implementación
 
-## Beneficios
+## Beneficios v2
 
-- **Todos más informados:** Cada todo sabe exactamente qué hacer
-- **Mejor estructura TDD:** Tests definidos antes de empezar
-- **Documentación lista:** No hay que buscar durante desarrollo
-- **Checkpoints claros:** Sé cuándo actualizar Task Master
-- **Recuperación fácil:** El archivo persiste entre sesiones
+- **Distribución balanceada:** No más dominancia TDD (40% máximo)
+- **Documentación obligatoria:** 100% de subtareas con consulta Context7
+- **Paralelización ejecutada:** TODOs explícitos para subagentes
+- **Mejor estructura TDD:** Tests definidos pero balanceados
+- **Checkpoints claros:** Validación continua del progreso
+- **Métricas comparables:** Permite análisis TEP v1 vs v2
 
-## Ejemplo de Uso
+## Ejemplo de Uso v2
 
 ```
 Usuario: /task-enrich
 
-Claude: Analizando Task #1: Setup Project Infrastructure...
+Claude: Analizando Task #1: Setup Project Infrastructure con TEP v2...
         
         ✅ Análisis completado:
         - Complejidad: 8/10
         - Subtareas identificadas: 3
-        - Documentación: SQLite, FastAPI, React, TypeScript
-        - Estrategia: Database primero, luego Backend/Frontend en paralelo
+        - Documentación: SQLite, FastAPI, React (consulta OBLIGATORIA)
+        - Estrategia: sequential-then-parallel con TODOs explícitos
         
         📄 Archivo creado: .taskmaster/enriched/1-enriched.json
         
-        He generado 15 todos optimizados con estructura TDD.
+        📊 Distribución de 20 TODOs generados:
+        - TDD: 8 todos (40%)
+        - Doc: 4 todos (20%) - OBLIGATORIO por subtarea
+        - Impl: 4 todos (20%)
+        - Parallel: 2 todos (10%)
+        - Validate: 2 todos (10%)
+        
+        ✅ Validaciones TEP v2:
+        - Cada subtarea tiene TODO [Doc] ✓
+        - Paralelización con TODOs explícitos ✓
+        - Distribución balanceada aplicada ✓
+        
         ¿Comenzamos con la implementación?
 ```
