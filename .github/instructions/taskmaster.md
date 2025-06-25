@@ -6,6 +6,10 @@ alwaysApply: true
 
 # Taskmaster Tool & Command Reference
 
+**Proyecto:** poc_taskmaster - Sistema de gestión de tareas con IA para desarrollo  
+**Repositorio:** https://github.com/adrirobg/poc_taskmaster  
+**Desarrollador:** adrirobg
+
 This document provides a detailed reference for interacting with Taskmaster, covering both the recommended MCP tools, suitable for integrations like VS Code, and the corresponding `task-master` CLI commands, designed for direct user interaction or fallback.
 
 **Note:** For interacting with Taskmaster programmatically or via integrated tools, using the **MCP tools is strongly recommended** due to better performance, structured data, and error handling. The CLI commands serve as a user-friendly alternative and fallback. 

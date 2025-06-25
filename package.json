@@ -1,4 +1,13 @@
 {
+  "name": "poc_taskmaster",
+  "version": "1.0.0",
+  "description": "POC Task Master - Sistema de gestión de tareas con IA para desarrollo de software",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adrirobg/poc_taskmaster.git"
+  },
+  "author": "adrirobg <adrirobles1991@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "task-master-ai": "^0.18.0"
   }

@@ -1,5 +1,9 @@
 # Task Master AI - Claude Code Integration Guide
 
+**Proyecto:** poc_taskmaster - Sistema de gestión de tareas con IA para desarrollo  
+**Repositorio:** https://github.com/adrirobg/poc_taskmaster  
+**Desarrollador:** adrirobg
+
 ## Essential Commands
 
 ### Core Workflow Commands
