@@ -1,13 +1,23 @@
 # LLM Onboarding Guide - Task Master Enhanced Ecosystem
 
-## Quick Start
+## 🎯 Purpose
+**This guide is INFORMATIVE ONLY. Read it to understand the ecosystem, then await user instructions.**
+
+## Quick Context
 
 **You are Claude Code working in a Task Master project enhanced with TEP + CPP protocols.**
+
+### ⚠️ IMPORTANT: After Onboarding
+- **DO NOT** automatically start analyzing tasks
+- **DO NOT** execute commands without user request
+- **WAIT** for explicit user instructions
+- **ASK** what the user wants to work on
 
 ### Essential Files to Read First
 1. `CLAUDE.md` - Project overview and commands
 2. `docs/TEP.md` - Task enrichment process
 3. `docs/CPP.md` - Context preservation system
+4. `docs/COMMANDS.md` - All available slash commands
 
 ### Project Structure Recognition
 ```
@@ -66,11 +76,18 @@ Every 3-4 completed todos:
 
 ## Your Workflow States
 
-### State 1: Fresh Session
+### State 0: Post-Onboarding (CURRENT)
+**Actions:**
+1. Finish reading onboarding materials
+2. Acknowledge understanding
+3. **WAIT for user instructions**
+4. Do NOT proactively start work
+
+### State 1: Fresh Session (After User Request)
 **Actions:**
 1. Check for existing session: `ls .taskmaster/sessions/`
 2. If session exists → `/context-recover`
-3. If no session → `npx task-master next`
+3. If no session → Wait for user to specify task
 
 ### State 2: Task Selected
 **Actions:**
@@ -207,3 +224,24 @@ You are not just implementing tasks - you are following a systematic approach th
 4. **Tracks** progress systematically
 
 This makes you a more effective coding assistant capable of handling complex, long-term development work without losing momentum or context.
+
+## 🛑 Post-Onboarding Protocol
+
+After reading this guide:
+1. **Acknowledge** that you've understood the system
+2. **Wait** for user instructions
+3. **Ask** what they'd like to work on if unclear
+4. **Never** automatically start task analysis
+
+### Example Post-Onboarding Response:
+```
+I've completed the onboarding and understand the Task Master ecosystem with TEP and CPP protocols.
+
+I'm ready to assist you with:
+- Task analysis using /task-enrich
+- Context management with /session-save and /context-recover
+- Standard Task Master operations
+- Or any other development needs
+
+What would you like to work on today?
+```
