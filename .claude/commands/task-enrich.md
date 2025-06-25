@@ -1,6 +1,6 @@
-# Task Enrichment Protocol (TEP) v2.1
+# Task Enrichment Protocol (TEP) v2.2
 
-Analiza y enriquece la tarea actual de Task Master para crear todos más informados y aplicar mejores prácticas de desarrollo con distribución balanceada y ordenamiento por flujo de ejecución.
+Analiza y enriquece la tarea actual de Task Master para crear todos más informados y aplicar mejores prácticas de desarrollo con distribución balanceada, ordenamiento por flujo de ejecución y research dirigido por subtarea.
 
 ## Uso
 
@@ -142,13 +142,15 @@ Para cada subtarea, define:
         "integrationPoints": ["point1", "point2"]
       },
       "documentation": {
-        "library": {
-          "contextId": "context7-id",
-          "topics": ["topic1", "topic2"],
-          "keySnippets": ["snippet-ref"]
-        },
-        "mandatoryConsultation": true,
-        "consultationTodos": ["[Doc:library] Consult documentation before implementation"]
+        "required": [
+          {
+            "contextId": "context7-id",
+            "specificTopics": ["topic1", "topic2"],
+            "searchQuery": "specific search query for this subtask",
+            "priority": "high|medium|low"
+          }
+        ],
+        "mandatoryConsultation": true
       }
     }
   ],
@@ -222,14 +224,14 @@ Para cada subtarea, define:
 3. [TDD:Green] Implement minimal directory structure to pass tests
 ```
 
-#### Phase 2: Research (Items 4-9)
+#### Phase 2: Task-Specific Documentation Mapping (Items 4-9)
 ```
-4. [Doc:SQLAlchemy] Search /sqlalchemy/sqlalchemy for DeclarativeBase patterns
-5. [Doc:FastAPI] Search /tiangolo/fastapi for controller-service-repository
-6. [Doc:React] Search /reactjs/react.dev for TypeScript + Vite setup
-7. [Doc:SQLite] Research SQLite WAL mode and FTS5 configuration
-8. [Doc:Pytest] Search pytest docs for database testing fixtures
-9. [Doc:Vitest] Search vitest docs for React + TypeScript testing
+4. [Doc:SQLAlchemy-Database] Map DeclarativeBase + session management for subtask 1.2
+5. [Doc:FastAPI-Backend] Map controller-service-repository for subtask 1.3
+6. [Doc:React-Frontend] Map TypeScript + Vite setup for subtask 1.4
+7. [Doc:Pytest-Database] Map database testing fixtures for subtask 1.2
+8. [Doc:Vitest-Frontend] Map React testing patterns for subtask 1.4
+9. [Doc:SQLite-Database] Map WAL mode configuration for subtask 1.2
 ```
 
 #### Phase 3: Parallel Launch (Item 10)
@@ -275,14 +277,15 @@ Para cada subtarea, define:
 
 **DISTRIBUCIÓN MANTENIDA:** 40% TDD (12), 20% Doc (6), 20% Impl (6), 10% Parallel (3), 10% Validate (3)
 
-**REGLAS CRÍTICAS v2.1:**
+**REGLAS CRÍTICAS v2.2:**
 - Foundation ANTES que cualquier test o implementación
-- Documentation ANTES que implementación de cada subtarea
+- Documentation MAPPING específico por subtarea durante planning
 - Parallel Launch DESPUÉS de foundation pero ANTES de implementation
 - Database track COMPLETO antes de Backend (dependency respected)
 - Frontend track puede ejecutar EN PARALELO con Database
 - Integration y Validation AL FINAL
 - Distribución 40/20/20/10/10 MANTENIDA estrictamente
+- Subagents ejecutan DIRECTED RESEARCH con queries específicas
 
 ### 7.3. Validaciones Post-Generación (OBLIGATORIO)
 
@@ -298,6 +301,35 @@ Para cada subtarea, define:
 ✅ **Distribution Check:** 12 TDD + 6 Doc + 6 Impl + 3 Parallel + 3 Validate = 30
 ✅ **Dependency Respect:** Cada TODO puede ejecutarse cuando llega su turno
 ✅ **Doc Before Impl:** Para cada subtarea, [Doc] precede a [Impl]
+✅ **Task-Specific Mapping:** Cada subtarea tiene queries específicas definidas
+✅ **Directed Research:** Subagents buscan solo docs relevantes a su subtarea
+
+### 7.4. Patrón de Subagent con Directed Research (NUEVO v2.2)
+
+**Template de Deployment:**
+```python
+Task(f"""
+[Subtask Title] Implementation Subagent:
+
+DIRECTED RESEARCH (execute specific queries BEFORE coding):
+1. Search {contextId} for: "{specificSearchQuery}"
+2. Focus on: {specificTopics}
+3. STOP - no other documentation needed
+
+IMPLEMENT with focused context:
+- Apply specific patterns found in research
+- Follow documentation guidelines discovered
+- Report implementation with doc references used
+
+Research Queries: {subtask['documentation']['required']}
+""")
+```
+
+**Beneficios:**
+- Research dirigido a necesidades específicas
+- Context relevante sin pollution
+- No duplicación entre subagents
+- Token efficiency optimizada
 
 ## Proceso de Ejecución
 
@@ -317,42 +349,40 @@ Para cada subtarea, define:
 - **Checkpoints claros:** Validación continua del progreso
 - **Métricas comparables:** Permite análisis TEP v1 vs v2
 
-## Ejemplo de Uso v2.1
+## Ejemplo de Uso v2.2
 
 ```
 Usuario: /task-enrich
 
-Claude: Ejecutando Task #1: Setup Project Infrastructure con protocolo TEP v2.1...
+Claude: Ejecutando Task #1: Setup Project Infrastructure con protocolo TEP v2.2...
         
         ✅ Paso 7.1 - Análisis de dependencias:
         - Subtareas: 1.1→1.2→1.3, 1.1→1.4, 1.5 requiere todas
         - Paralelización: 1.2 (Database) + 1.4 (Frontend) en paralelo
         - Backend 1.3 depende de Database 1.2 completada
         
-        ✅ Paso 7.2 - Algoritmo de ordenamiento aplicado:
-        - Phase 1: Foundation (items 1-3)
-        - Phase 2: Research (items 4-9) 
-        - Phase 3: Parallel Launch (item 10)
-        - Phase 3a+3b: Database + Frontend tracks (items 11-20)
-        - Phase 4: Backend Sequential (items 21-25)
-        - Phase 5: Integration & Validation (items 26-30)
+        ✅ Paso 7.2 - Task-Specific Documentation Mapping:
+        - SQLAlchemy-Database: DeclarativeBase + WAL for subtask 1.2
+        - FastAPI-Backend: controller-service-repository for subtask 1.3
+        - React-Frontend: TypeScript + Vite for subtask 1.4
+        - Pytest/Vitest: Testing patterns per subtask
         
         📄 Archivo creado: .taskmaster/enriched/1-enriched.json
         
-        📊 30 TODOs generados en ORDEN DE EJECUCIÓN:
+        📊 30 TODOs generados con DIRECTED RESEARCH:
         - TDD: 12 todos (40%) - distribuidos por fase
-        - Doc: 6 todos (20%) - Research phase (items 4-9)
+        - Doc: 6 todos (20%) - Task-specific mapping (items 4-9)
         - Impl: 6 todos (20%) - distribuidos por track
         - Parallel: 3 todos (10%) - Launch/Coordinate/Merge
         - Validate: 3 todos (10%) - Final phase (items 28-30)
         
-        ✅ Validaciones TEP v2.1 pasadas:
+        ✅ Validaciones TEP v2.2 pasadas:
         - Foundation antes que tests ✓
-        - Documentation antes que implementation ✓
-        - Paralelización temprana (item 10) ✓
+        - Task-specific doc mapping ✓
+        - Directed research queries definidas ✓
         - Database track completo antes de Backend ✓
         - Distribución 40/20/20/10/10 mantenida ✓
         
-        🚀 Tiempo estimado: 2.5h (vs 4h secuencial)
+        🚀 Subagents ejecutarán research dirigido con queries específicas
         ¿Procedemos con ejecución optimizada?
 ```
