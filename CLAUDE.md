@@ -418,4 +418,22 @@ These commands make AI calls and may take up to a minute:
 
 ---
 
+## Custom Commands for Enhanced Workflow
+
+### Task Enhancement Protocol (TEP)
+- **`/task-enrich`** - Transform tasks into detailed implementation plans with TDD structure
+- **Documentation:** `docs/TEP.md`
+
+### Context Preservation Protocol (CPP)  
+- **`/session-save`** - Preserve context before /clear
+- **`/context-recover`** - Restore context after /clear  
+- **Documentation:** `docs/CPP.md`
+
+### Quick Reference
+- **All commands:** `docs/COMMANDS.md`
+- **TEP files:** `.taskmaster/enriched/`
+- **Session files:** `.taskmaster/sessions/`
+
+---
+
 _This guide ensures Claude Code has immediate access to Task Master's essential functionality for agentic development workflows._
