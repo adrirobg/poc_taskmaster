@@ -1,392 +1,186 @@
 {
-  "taskId": "1",
-  "originalTask": {
-    "id": "1",
-    "title": "Setup Project Infrastructure and Database Foundation",
-    "description": "Initialize the project structure with SQLite database, FastAPI backend foundation, and React frontend scaffold",
-    "status": "pending",
-    "priority": "high",
-    "dependencies": []
-  },
-  "enrichedAt": "2024-12-25T16:30:00Z",
-  "analysis": {
-    "complexity": 8,
-    "estimatedMinutes": 90,
-    "technologies": ["SQLite", "FastAPI", "SQLAlchemy", "React", "TypeScript", "Vite"],
-    "recommendedApproach": "sequential-foundation-then-parallel",
-    "reasoning": "Database debe configurarse primero para definir esquemas. Backend y Frontend pueden desarrollarse en paralelo después."
+  "taskId": 1,
+  "title": "Setup Project Infrastructure and Database Foundation",
+  "originalDescription": "Initialize the project structure with SQLite database, FastAPI backend foundation, and React frontend scaffold",
+  "complexity": {
+    "score": 7,
+    "reasoning": "This task involves setting up multiple technology stacks (SQLite, FastAPI, React), configuring development environments, establishing architectural patterns, and ensuring proper integration between components. While individual pieces are straightforward, the coordination and proper foundation setup require careful planning."
   },
   "subtasks": [
     {
       "id": "1.1",
-      "title": "SQLite Database Configuration & Setup",
-      "description": "Configure SQLite with WAL mode, 64MB cache, FTS5 enabled, and directory structure",
-      "technologies": ["SQLite", "SQLAlchemy"],
-      "dependencies": [],
-      "estimatedMinutes": 25,
-      "tddStructure": {
-        "failingTests": [
-          {
-            "name": "test_database_wal_mode_enabled",
-            "description": "Verify SQLite WAL mode is active",
-            "expectedFailure": "No WAL pragma configured yet",
-            "file": "tests/test_database_config.py"
-          },
-          {
-            "name": "test_database_cache_size_64mb",
-            "description": "Verify 64MB cache size setting",
-            "expectedFailure": "Default cache size is too small",
-            "file": "tests/test_database_config.py"
-          },
-          {
-            "name": "test_fts5_extension_available",
-            "description": "Verify FTS5 extension is compiled and available",
-            "expectedFailure": "FTS5 not configured",
-            "file": "tests/test_database_config.py"
-          },
-          {
-            "name": "test_database_directory_creation",
-            "description": "Verify ~/.pkm/data/ directory auto-creation",
-            "expectedFailure": "Directory creation logic not implemented",
-            "file": "tests/test_database_config.py"
-          }
-        ],
-        "minimalImplementation": {
-          "description": "Create database configuration module with SQLite optimizations",
-          "keyComponents": [
-            "DatabaseConfig class",
-            "get_engine() function",
-            "SQLite pragma setup",
-            "Directory creation utility"
-          ],
-          "estimatedLines": 85,
-          "keyFiles": [
-            "backend/database/config.py",
-            "backend/database/__init__.py"
-          ]
-        },
-        "refactoringGoals": [
-          "Extract pragma settings to configuration file",
-          "Add database health check endpoint",
-          "Implement connection pooling strategy"
-        ],
-        "integrationPoints": [
-          "SQLAlchemy engine creation",
-          "FastAPI startup events",
-          "Environment variable configuration"
-        ]
+      "title": "Initialize Project Directory Structure",
+      "description": "Create the base project structure with separate backend and frontend folders, configuration files, and documentation structure",
+      "technicalDetails": {
+        "architecture": "Monorepo structure with clear separation of concerns",
+        "dependencies": [],
+        "estimatedEffort": "30 minutes"
       },
-      "documentation": {
-        "sqlite": {
-          "contextId": "system-sqlite-docs",
-          "topics": ["wal-mode", "cache-optimization", "fts5"],
-          "keyPragmas": ["journal_mode", "cache_size", "synchronous"]
-        },
-        "sqlalchemy": {
-          "contextId": "/sqlalchemy/sqlalchemy",
-          "topics": ["engine-configuration", "events", "sqlite-dialect"],
-          "keySnippets": ["engine-events", "sqlite-pragmas"]
-        }
+      "testStrategy": {
+        "unit": "Verify directory structure exists with correct permissions",
+        "integration": "Ensure git repository is properly initialized",
+        "validation": "Check that .gitignore covers all necessary patterns"
       }
     },
     {
       "id": "1.2",
-      "title": "FastAPI Backend Infrastructure",
-      "description": "Setup FastAPI application with CORS, API versioning, middleware, and project structure",
-      "technologies": ["FastAPI", "Pydantic", "Python"],
-      "dependencies": ["1.1"],
-      "estimatedMinutes": 30,
-      "tddStructure": {
-        "failingTests": [
-          {
-            "name": "test_fastapi_app_startup",
-            "description": "Verify FastAPI app initializes correctly",
-            "expectedFailure": "No app created yet",
-            "file": "tests/test_fastapi_core.py"
-          },
-          {
-            "name": "test_health_endpoint_available",
-            "description": "Verify health check endpoint returns 200",
-            "expectedFailure": "No health endpoint defined",
-            "file": "tests/test_fastapi_core.py"
-          },
-          {
-            "name": "test_cors_middleware_configured",
-            "description": "Verify CORS allows localhost:3000",
-            "expectedFailure": "CORS not configured",
-            "file": "tests/test_fastapi_core.py"
-          },
-          {
-            "name": "test_api_versioning_v1",
-            "description": "Verify /api/v1/ prefix works",
-            "expectedFailure": "API versioning not implemented",
-            "file": "tests/test_fastapi_core.py"
-          },
-          {
-            "name": "test_database_connection_on_startup",
-            "description": "Verify database connects during startup",
-            "expectedFailure": "Database integration not done",
-            "file": "tests/test_fastapi_integration.py"
-          }
-        ],
-        "minimalImplementation": {
-          "description": "Create FastAPI app with basic middleware and database integration",
-          "keyComponents": [
-            "FastAPI app instance",
-            "CORS middleware",
-            "Health check endpoint",
-            "API versioning router",
-            "Database startup events"
-          ],
-          "estimatedLines": 120,
-          "keyFiles": [
-            "backend/main.py",
-            "backend/api/__init__.py",
-            "backend/api/v1/__init__.py",
-            "backend/core/config.py"
-          ]
-        },
-        "refactoringGoals": [
-          "Extract middleware to separate module",
-          "Add logging configuration",
-          "Implement exception handlers",
-          "Add request validation middleware"
-        ],
-        "integrationPoints": [
-          "Database engine from subtask 1.1",
-          "Router registration",
-          "Environment configuration",
-          "Future API endpoints"
-        ]
+      "title": "Setup SQLite Database with SQLAlchemy",
+      "description": "Configure SQLite 3.40+ with WAL mode, 64MB cache, FTS5 enabled, and SQLAlchemy 2.0 ORM setup",
+      "technicalDetails": {
+        "architecture": "Database layer with proper connection pooling and session management",
+        "dependencies": ["SQLAlchemy>=2.0", "alembic", "sqlite3>=3.40"],
+        "estimatedEffort": "1 hour"
       },
-      "documentation": {
-        "fastapi": {
-          "contextId": "/tiangolo/fastapi",
-          "topics": ["testing", "middleware", "startup-events", "cors"],
-          "keySnippets": ["cors-setup", "startup-events", "testing-client"]
-        },
-        "pydantic": {
-          "contextId": "/pydantic/pydantic",
-          "topics": ["settings", "validation", "models"],
-          "keySnippets": ["settings-management", "base-models"]
-        }
+      "testStrategy": {
+        "unit": "Test database connection, WAL mode activation, FTS5 availability",
+        "integration": "Verify SQLAlchemy session creation and basic CRUD operations",
+        "validation": "Confirm database performance with sample data"
       }
     },
     {
       "id": "1.3",
-      "title": "React + TypeScript Frontend Foundation",
-      "description": "Setup React application with TypeScript, Vite, testing framework, and basic structure",
-      "technologies": ["React", "TypeScript", "Vite", "Vitest"],
-      "dependencies": [],
-      "estimatedMinutes": 35,
-      "tddStructure": {
-        "failingTests": [
-          {
-            "name": "App.test.tsx: renders without crashing",
-            "description": "Verify main App component renders",
-            "expectedFailure": "No App component exists",
-            "file": "frontend/src/__tests__/App.test.tsx"
-          },
-          {
-            "name": "App.test.tsx: has correct TypeScript types",
-            "description": "Verify App component is properly typed",
-            "expectedFailure": "TypeScript not configured",
-            "file": "frontend/src/__tests__/App.test.tsx"
-          },
-          {
-            "name": "tsconfig.test.js: strict mode enabled",
-            "description": "Verify TypeScript strict mode configuration",
-            "expectedFailure": "tsconfig.json not created",
-            "file": "frontend/__tests__/config/tsconfig.test.js"
-          },
-          {
-            "name": "api.test.ts: can connect to backend",
-            "description": "Verify API client can reach backend health endpoint",
-            "expectedFailure": "API client not implemented",
-            "file": "frontend/src/__tests__/api/api.test.ts"
-          },
-          {
-            "name": "vite.test.js: development server runs",
-            "description": "Verify Vite dev server configuration",
-            "expectedFailure": "Vite config not setup",
-            "file": "frontend/__tests__/config/vite.test.js"
-          }
-        ],
-        "minimalImplementation": {
-          "description": "Create React app with TypeScript, basic components, and API client",
-          "keyComponents": [
-            "App component with TypeScript",
-            "Vite configuration",
-            "TypeScript strict configuration",
-            "Basic API client",
-            "Test setup with Vitest",
-            "Basic CSS structure"
-          ],
-          "estimatedLines": 200,
-          "keyFiles": [
-            "frontend/src/App.tsx",
-            "frontend/src/main.tsx",
-            "frontend/vite.config.ts",
-            "frontend/tsconfig.json",
-            "frontend/src/api/client.ts",
-            "frontend/vitest.config.ts"
-          ]
-        },
-        "refactoringGoals": [
-          "Setup proper routing structure",
-          "Add global state management",
-          "Implement proper error boundaries",
-          "Setup component library structure"
-        ],
-        "integrationPoints": [
-          "API client connects to FastAPI backend",
-          "Environment variable configuration",
-          "Build process integration",
-          "Future component development"
-        ]
+      "title": "Initialize FastAPI Backend Structure",
+      "description": "Create FastAPI project with Python 3.11+ using controller-service-repository pattern, including proper project structure and dependency injection setup",
+      "technicalDetails": {
+        "architecture": "Three-layer architecture with clear separation between API, business logic, and data access",
+        "dependencies": ["fastapi[standard]", "pydantic>=2.0", "python-dotenv", "uvicorn"],
+        "estimatedEffort": "1.5 hours"
       },
-      "documentation": {
-        "react": {
-          "contextId": "/reactjs/react.dev",
-          "topics": ["hooks", "typescript", "testing"],
-          "keySnippets": ["typescript-setup", "testing-patterns", "component-patterns"]
-        },
-        "vite": {
-          "contextId": "/vitejs/vite",
-          "topics": ["react-setup", "typescript", "testing"],
-          "keySnippets": ["react-typescript-template", "vitest-setup"]
-        },
-        "typescript": {
-          "contextId": "/microsoft/typescript",
-          "topics": ["react-integration", "strict-mode", "configuration"],
-          "keySnippets": ["react-types", "tsconfig-react"]
-        }
+      "testStrategy": {
+        "unit": "Test FastAPI app initialization, route registration",
+        "integration": "Verify health check endpoint, OpenAPI documentation generation",
+        "validation": "Ensure proper error handling and validation middleware"
+      }
+    },
+    {
+      "id": "1.4",
+      "title": "Create React Frontend Foundation",
+      "description": "Setup React 18+ project with TypeScript, Vite, and essential development tooling",
+      "technicalDetails": {
+        "architecture": "Component-based architecture with TypeScript for type safety",
+        "dependencies": ["react>=18", "react-dom>=18", "typescript", "vite", "@types/react"],
+        "estimatedEffort": "1 hour"
+      },
+      "testStrategy": {
+        "unit": "Verify TypeScript compilation, component rendering",
+        "integration": "Test Vite dev server, HMR functionality",
+        "validation": "Ensure production build succeeds"
+      }
+    },
+    {
+      "id": "1.5",
+      "title": "Configure Development Environment",
+      "description": "Setup environment variables, development tools, linting, formatting, and git hooks",
+      "technicalDetails": {
+        "architecture": "Development workflow automation and code quality enforcement",
+        "dependencies": ["pre-commit", "black", "ruff", "prettier", "eslint", "husky"],
+        "estimatedEffort": "45 minutes"
+      },
+      "testStrategy": {
+        "unit": "Test individual linters and formatters",
+        "integration": "Verify pre-commit hooks execution",
+        "validation": "Ensure CI/CD compatibility"
       }
     }
   ],
-  "parallelization": {
-    "possible": true,
-    "strategy": "sequential-foundation-then-parallel",
-    "phases": [
+  "parallelizationStrategy": {
+    "opportunities": [
       {
-        "phase": 1,
-        "description": "Database foundation (sequential)",
-        "subtasks": ["1.1"],
-        "reasoning": "Database schema definitions needed for backend models"
+        "tasks": ["1.2", "1.4"],
+        "reasoning": "Database setup and React frontend can be initialized independently after directory structure is created"
       },
       {
-        "phase": 2,
-        "description": "Backend and Frontend (parallel)",
-        "subtasks": ["1.2", "1.3"],
-        "reasoning": "Once database is defined, backend and frontend can develop independently"
+        "tasks": ["1.3", "1.4"],
+        "reasoning": "Backend and frontend initialization can happen in parallel as they have no dependencies on each other"
       }
     ],
-    "subagentTasks": [
+    "dependencies": [
       {
-        "agentId": "database-agent",
-        "subtaskIds": ["1.1"],
-        "dependencies": [],
-        "estimatedMinutes": 25,
-        "role": "Database configuration and optimization specialist"
+        "task": "1.2",
+        "dependsOn": ["1.1"],
+        "reason": "Database needs project structure"
       },
       {
-        "agentId": "backend-agent",
-        "subtaskIds": ["1.2"],
-        "dependencies": ["1.1"],
-        "estimatedMinutes": 30,
-        "role": "FastAPI and Python backend specialist"
+        "task": "1.3",
+        "dependsOn": ["1.1", "1.2"],
+        "reason": "FastAPI needs project structure and database configuration"
       },
       {
-        "agentId": "frontend-agent", 
-        "subtaskIds": ["1.3"],
-        "dependencies": [],
-        "estimatedMinutes": 35,
-        "role": "React and TypeScript frontend specialist"
+        "task": "1.4",
+        "dependsOn": ["1.1"],
+        "reason": "React needs project structure"
+      },
+      {
+        "task": "1.5",
+        "dependsOn": ["1.1", "1.3", "1.4"],
+        "reason": "Dev environment configuration needs all components in place"
       }
-    ],
-    "coordinationPoints": [
-      "after-1.1-complete",
-      "before-integration-testing",
-      "after-all-subtasks-complete"
-    ],
-    "integrationStrategy": "API contract-first development with mock endpoints"
+    ]
   },
-  "updateStrategy": {
-    "checkpointTriggers": [
-      "after-3-todos-completed",
-      "after-subtask-complete", 
-      "after-all-tests-green",
-      "before-refactoring-phase"
+  "tddStructure": {
+    "testFirst": [
+      {
+        "subtask": "1.1",
+        "tests": [
+          "test_project_structure_exists",
+          "test_git_initialization",
+          "test_gitignore_patterns"
+        ]
+      },
+      {
+        "subtask": "1.2",
+        "tests": [
+          "test_sqlite_connection",
+          "test_wal_mode_enabled",
+          "test_fts5_extension_loaded",
+          "test_sqlalchemy_engine_creation",
+          "test_session_factory"
+        ]
+      },
+      {
+        "subtask": "1.3",
+        "tests": [
+          "test_fastapi_app_creation",
+          "test_health_endpoint",
+          "test_openapi_schema_generation",
+          "test_cors_middleware",
+          "test_exception_handlers"
+        ]
+      },
+      {
+        "subtask": "1.4",
+        "tests": [
+          "test_react_app_renders",
+          "test_typescript_compilation",
+          "test_vite_config",
+          "test_production_build"
+        ]
+      }
     ],
-    "updateTemplate": {
-      "subtask": "task-master update-subtask --id=1.{subtask} --prompt=\"{progress_summary}\"",
-      "mainTask": "task-master update-subtask --id=1 --prompt=\"{overall_progress}\""
+    "implementationOrder": [
+      "Create directory structure and initialization scripts",
+      "Implement database configuration and connection management",
+      "Build FastAPI application structure with layers",
+      "Setup React with TypeScript and Vite configuration",
+      "Configure development tools and automation"
+    ]
+  },
+  "contextSources": {
+    "sqlalchemy": {
+      "topics": ["orm setup", "database initialization", "session management"],
+      "keyPatterns": ["DeclarativeBase", "create_engine", "Session configuration"]
     },
-    "progressTracking": {
-      "metrics": ["tests-passing", "todos-completed", "lines-of-code", "integration-points-working"],
-      "reportingFrequency": "every-checkpoint"
+    "fastapi": {
+      "topics": ["project structure", "dependency injection", "middleware setup"],
+      "keyPatterns": ["APIRouter", "app structure", "CORS configuration"]
+    },
+    "react": {
+      "topics": ["typescript setup", "vite configuration", "project initialization"],
+      "keyPatterns": ["tsconfig", "vite.config", "component structure"]
+    },
+    "pytest": {
+      "topics": ["fixture setup", "test organization", "database testing"],
+      "keyPatterns": ["conftest.py", "fixture scopes", "test isolation"]
     }
-  },
-  "todoGenerationGuidance": {
-    "groupingStrategy": "by-subtask-then-tdd-cycle",
-    "priorityOrder": ["1.1", "1.2", "1.3"],
-    "estimatedTotalTodos": 18,
-    "todoStructure": {
-      "prefix": "[TEP:1][Subtask:X.Y][TDD:Phase]",
-      "phases": ["Red", "Green", "Refactor", "Integrate"],
-      "checkpointFormat": "[Checkpoint:after-X]"
-    },
-    "exampleTodos": [
-      "[TEP:1][Subtask:1.1][TDD:Red] Write test_database_wal_mode_enabled - verify SQLite WAL pragma",
-      "[TEP:1][Subtask:1.1][TDD:Green] Implement DatabaseConfig.get_engine() with WAL mode",
-      "[TEP:1][Subtask:1.1][TDD:Refactor] Extract pragma settings to configuration file",
-      "[TEP:1][Subtask:1.1][Checkpoint:after-db-config] Update Task Master with database progress"
-    ]
-  },
-  "riskAssessment": {
-    "technicalRisks": [
-      {
-        "risk": "SQLite FTS5 not available in production environment",
-        "impact": "medium",
-        "mitigation": "Add FTS5 availability check in tests and fallback strategy"
-      },
-      {
-        "risk": "CORS configuration blocking frontend in development",
-        "impact": "low", 
-        "mitigation": "Comprehensive CORS testing in multiple browsers"
-      },
-      {
-        "risk": "TypeScript compilation errors with React 18",
-        "impact": "medium",
-        "mitigation": "Use latest @types packages and test compilation early"
-      }
-    ],
-    "integrationRisks": [
-      {
-        "risk": "Database connection failures during FastAPI startup",
-        "impact": "high",
-        "mitigation": "Implement retry logic and health checks"
-      }
-    ]
-  },
-  "successCriteria": {
-    "functional": [
-      "All tests pass (unit + integration)",
-      "Database connects with proper configuration",
-      "FastAPI health endpoint responds correctly",
-      "React app loads without errors",
-      "Frontend can call backend health endpoint"
-    ],
-    "qualitative": [
-      "Code follows TDD principles",
-      "Proper separation of concerns",
-      "Configuration is environment-aware",
-      "Error handling is comprehensive"
-    ],
-    "performance": [
-      "Database connection time < 100ms",
-      "React app initial load < 2s",
-      "FastAPI health endpoint < 50ms response"
-    ]
   }
 }
