@@ -1,0 +1,147 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Setup Project Infrastructure and Database Foundation",
+        "description": "Initialize the project structure with SQLite database, FastAPI backend foundation, and React frontend scaffold",
+        "details": "Create project directory structure with separate backend and frontend folders. Setup SQLite 3.40+ with WAL mode, 64MB cache, and FTS5 enabled. Initialize FastAPI project with Python 3.11+ using controller-service-repository pattern. Create React 18+ project with TypeScript and Vite. Setup package.json/requirements.txt with all required dependencies including SQLAlchemy 2.0, Pydantic v2, and development tools.",
+        "testStrategy": "Verify database connection, test FastAPI startup, confirm React development server runs successfully, validate TypeScript compilation",
+        "priority": "high",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "Implement Core Data Models and Database Schema",
+        "description": "Create SQLAlchemy models for Project, Note, NoteLink, Tag, and NoteVersion with proper relationships and constraints",
+        "details": "Define Project model with UUID, name (unique 1-100 chars), description, color, icon, timestamps, and metadata JSON field. Create Note model with UUID, title (1-200 chars), content (Markdown max 1MB), project_id foreign key, timestamps, soft delete, version, word_count, and reading_time. Implement NoteLink for bidirectional relationships, Tag with hierarchical structure, and NoteVersion for lightweight versioning. Setup Alembic migrations and configure optimized indexes.",
+        "testStrategy": "Unit tests for model validations, test migrations up/down, verify foreign key constraints, test soft delete functionality",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Build FastAPI CRUD Endpoints and Service Layer",
+        "description": "Implement RESTful API endpoints following OpenAPI 3.0 spec with proper validation, error handling, and repository pattern",
+        "details": "Create controller layer with endpoints for /api/v1/projects (GET, POST, PUT, PATCH, DELETE) and /api/v1/notes with full CRUD operations. Implement service layer with business logic for project management, note creation/updates with auto-save every 500ms, and soft delete handling. Add repository layer for data access with proper error handling and validation using Pydantic v2 schemas. Include bulk operations endpoint for batch processing.",
+        "testStrategy": "Integration tests for all endpoints, test request/response validation, verify error handling with proper HTTP status codes, test bulk operations",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "Create React Frontend Foundation and Routing",
+        "description": "Setup React application structure with TypeScript, routing, state management, and basic layout components",
+        "details": "Create React app structure with TypeScript strict mode, setup React Router for navigation, implement Zustand for state management. Create main layout with navigation sidebar, content area, and header. Setup CSS Modules with CSS Variables for theming support (light/dark). Implement API client with interceptors for error handling and request/response transformation. Create basic components for project list, note list, and navigation.",
+        "testStrategy": "Unit tests for components, test routing functionality, verify state management updates, test API client with mock responses",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Implement Project Management Interface",
+        "description": "Build complete project CRUD interface with templates, organization features, and responsive design",
+        "details": "Create project creation form with name, description, color picker, and icon selector. Implement project list view with cards showing metadata and statistics. Add project templates for common types (research, development, learning). Build project detail view with associated notes listing. Implement drag & drop for project organization, bulk operations for project management, and project archiving functionality. Add responsive design for different screen sizes.",
+        "testStrategy": "E2E tests for project creation flow, test template application, verify project statistics calculation, test responsive design on multiple screen sizes",
+        "priority": "medium",
+        "dependencies": [
+          3,
+          4
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Build Advanced Markdown Editor with Auto-Save",
+        "description": "Integrate sophisticated markdown editor with real-time preview, auto-save, and productivity features",
+        "details": "Integrate CodeMirror 6 or Monaco Editor with markdown syntax highlighting, auto-completion, and vim keybindings support. Implement auto-save functionality with 500ms debounce and visual save indicators. Create split-pane view with live markdown preview. Add markdown toolbar with formatting shortcuts, code block support with syntax highlighting, and table editing. Implement focus mode for distraction-free writing and full-screen editing option.",
+        "testStrategy": "Test auto-save functionality with network interruptions, verify markdown rendering accuracy, test editor performance with large documents, validate keyboard shortcuts",
+        "priority": "high",
+        "dependencies": [
+          3,
+          4
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Implement Full-Text Search with FTS5 and Advanced Filtering",
+        "description": "Build powerful search functionality using SQLite FTS5 with real-time search, ranking, and filtering capabilities",
+        "details": "Configure SQLite FTS5 with optimized indexes for note titles and content. Implement search service with ranking algorithm considering title matches, content relevance, and recency. Create search API endpoint with debounced real-time search (300ms delay), snippet generation with highlighting, and advanced filters (project, date range, tags). Add search suggestions and autocomplete functionality. Implement search result caching for performance.",
+        "testStrategy": "Performance tests with 10k+ notes, test search accuracy with various query types, verify snippet highlighting, test filter combinations",
+        "priority": "high",
+        "dependencies": [
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Create Bidirectional Linking System and Backlinks",
+        "description": "Implement WikiLink parser for automatic note connections with backlink tracking and navigation",
+        "details": "Build regex-based parser to detect [[Note Title]] syntax in markdown content. Implement real-time link detection while typing with auto-completion of existing note titles. Create NoteLink service to maintain bidirectional relationships and calculate backlinks. Build backlinks panel showing all notes referencing current note with context snippets. Add link validation and broken link detection with suggestions for similar note titles.",
+        "testStrategy": "Test link detection with edge cases and special characters, verify backlink accuracy, test performance with heavily linked notes, validate auto-completion functionality",
+        "priority": "medium",
+        "dependencies": [
+          6,
+          7
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Build Flexible Tagging System with Hierarchy",
+        "description": "Implement hierarchical tag system with auto-completion, tag cloud visualization, and advanced filtering",
+        "details": "Create Tag model supporting hierarchical structure (#dev/python, #ideas/product) with parent-child relationships. Implement tag auto-completion with existing tag suggestions and hierarchy visualization. Build tag cloud interface for visual navigation with usage count indicators. Create tag management interface for merging, renaming, and organizing tags. Add tag-based filtering integration with search functionality and tag inheritance for hierarchical filtering.",
+        "testStrategy": "Test hierarchical tag creation and navigation, verify tag auto-completion accuracy, test tag cloud performance with large tag sets, validate tag filtering integration",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3,
+          7
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Add Note Versioning and Data Protection Features",
+        "description": "Implement lightweight versioning system with automatic backups and data recovery capabilities",
+        "details": "Create NoteVersion model storing last 5 versions of each note with change summaries. Implement automatic version creation on significant edits with conflict detection using optimistic locking. Build version history interface showing diff visualization and restore functionality. Add automatic backup system creating daily SQLite dumps in ~/.pkm/backups/. Implement export functionality to Markdown files and import from external markdown sources. Add data integrity checks and repair tools.",
+        "testStrategy": "Test version creation and restoration, verify backup automation, test data export/import accuracy, validate conflict resolution, test data integrity checks",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3,
+          6
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-06-25T14:21:59.557Z",
+      "updated": "2025-06-25T14:21:59.557Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

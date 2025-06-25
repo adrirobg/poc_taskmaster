@@ -9,6 +9,7 @@
   "author": "adrirobg <adrirobles1991@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@anthropic-ai/claude-code": "^1.0.34",
     "task-master-ai": "^0.18.0"
   }
 }
