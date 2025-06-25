@@ -418,21 +418,28 @@ These commands make AI calls and may take up to a minute:
 
 ---
 
-## Custom Commands for Enhanced Workflow
+## Enhanced Workflow System (TEP + CPP)
 
-### Task Enhancement Protocol (TEP)
+This project uses enhanced Task Master protocols for systematic development.
+
+### 🚀 Quick Start for LLMs
+- **New to this project?** Read: `docs/taskmaster_tutorials/llm-onboarding.md`
+- **Need workflow example?** Read: `docs/taskmaster_tutorials/tep-cpp-workflow.md`
+
+### Custom Commands
 - **`/task-enrich`** - Transform tasks into detailed implementation plans with TDD structure
-- **Documentation:** `docs/TEP.md`
-
-### Context Preservation Protocol (CPP)  
 - **`/session-save`** - Preserve context before /clear
-- **`/context-recover`** - Restore context after /clear  
-- **Documentation:** `docs/CPP.md`
+- **`/context-recover`** - Restore context after /clear
 
-### Quick Reference
-- **All commands:** `docs/COMMANDS.md`
-- **TEP files:** `.taskmaster/enriched/`
-- **Session files:** `.taskmaster/sessions/`
+### Documentation
+- **TEP Protocol:** `docs/TEP.md`
+- **CPP Protocol:** `docs/CPP.md`
+- **All Commands:** `docs/COMMANDS.md`
+
+### Key Files
+- **TEP Analysis:** `.taskmaster/enriched/<id>-enriched.json`
+- **Session State:** `.taskmaster/sessions/session-*.json`
+- **Official Tasks:** `.taskmaster/tasks/tasks.json` (READ-ONLY)
 
 ---
 
