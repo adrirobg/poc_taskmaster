@@ -1,6 +1,6 @@
-# Task Enrichment Protocol (TEP) v2
+# Task Enrichment Protocol (TEP) v2.1
 
-Analiza y enriquece la tarea actual de Task Master para crear todos más informados y aplicar mejores prácticas de desarrollo con distribución balanceada.
+Analiza y enriquece la tarea actual de Task Master para crear todos más informados y aplicar mejores prácticas de desarrollo con distribución balanceada y ordenamiento por flujo de ejecución.
 
 ## Uso
 
@@ -184,36 +184,120 @@ Para cada subtarea, define:
 }
 ```
 
-### 7. Generar TodoWrite Balanceado (v2)
+### 7.1. Análisis de Dependencias (NUEVO v2.1)
 
-**DISTRIBUCIÓN OBLIGATORIA:**
-- 40% TDD - Test-driven development
-- 20% Doc - Consulta de documentación (OBLIGATORIO por subtarea)
-- 20% Impl - Implementación pura
-- 10% Parallel - Orquestación de subagentes
-- 10% Validate - Checkpoints y validación
+**OBLIGATORIO:** Mapear dependencias entre subtareas y TODOs antes de generar la lista:
 
-**Tipos de TODO y formato:**
-1. `[TEP:1][TDD:Red]` - Escribir tests que fallan
-2. `[TEP:1][Doc:SQLite]` - Consultar documentación ANTES de implementar
-3. `[TEP:1][Impl:Core]` - Implementación de funcionalidad
-4. `[TEP:1][Parallel:Launch]` - Lanzar subagentes para ejecución paralela
-5. `[TEP:1][Validate:Integration]` - Validar y supervisar progreso
+**Dependencias Técnicas:**
+- Structure TODOs no requieren prerequisites
+- TDD TODOs requieren structure correspondiente creada
+- Doc TODOs deben preceder a Impl de la misma subtarea
+- Parallel TODOs requieren foundation (structure + tests básicos)
+- Backend subtareas dependen de Database subtareas completadas
 
-**Ejemplos de TODOs v2:**
-```
-"[TEP:1][Doc:SQLAlchemy] Consult /sqlalchemy/sqlalchemy docs for engine setup patterns"
-"[TEP:1][TDD:Red] Write test_database_wal_mode_enabled - verify SQLite WAL pragma"
-"[TEP:1][Parallel:Launch] Deploy 3 subagents for DB/Backend/Frontend parallel work"
-"[TEP:1][Impl:DB] Implement DatabaseConfig class using Context7 patterns"
-"[TEP:1][Validate:Checkpoint] Verify all subtask integrations work together"
+**Dependencias Entre Subtareas:**
+```yaml
+1.1 (Structure): Sin dependencias
+1.2 (Database): Depende de 1.1
+1.3 (Backend): Depende de 1.1 + 1.2  
+1.4 (Frontend): Depende solo de 1.1
+1.5 (DevEnv): Depende de 1.1 + 1.2 + 1.3 + 1.4
 ```
 
-**REGLAS CRÍTICAS:**
-- Cada subtarea DEBE tener al menos 1 TODO [Doc]
-- Los TODOs [Doc] deben ejecutarse ANTES que [Impl]
-- Si hay paralelización, DEBE haber TODOs [Parallel]
-- Mantener distribución 40/20/20/10/10 estrictamente
+**Oportunidades de Paralelización:**
+- Database (1.2) + Frontend (1.4) pueden ejecutarse en paralelo
+- Backend (1.3) debe esperar a Database (1.2)
+- Integration requiere todos los componentes
+
+### 7.2. Generar TodoWrite con Flujo Optimizado (v2.1)
+
+**CAMBIO CRÍTICO:** Generar TODOs en orden de EJECUCIÓN, no por categoría.
+
+**ALGORITMO OBLIGATORIO DE ORDENAMIENTO:**
+
+#### Phase 1: Foundation (Items 1-3)
+```
+1. [Impl:Structure] Create project directories and initialization files
+2. [TDD:Red] Write test_project_structure_exists for directory validation  
+3. [TDD:Green] Implement minimal directory structure to pass tests
+```
+
+#### Phase 2: Research (Items 4-9)
+```
+4. [Doc:SQLAlchemy] Search /sqlalchemy/sqlalchemy for DeclarativeBase patterns
+5. [Doc:FastAPI] Search /tiangolo/fastapi for controller-service-repository
+6. [Doc:React] Search /reactjs/react.dev for TypeScript + Vite setup
+7. [Doc:SQLite] Research SQLite WAL mode and FTS5 configuration
+8. [Doc:Pytest] Search pytest docs for database testing fixtures
+9. [Doc:Vitest] Search vitest docs for React + TypeScript testing
+```
+
+#### Phase 3: Parallel Launch (Item 10)
+```
+10. [Parallel:Launch] Deploy 2 subagents for parallel DB setup (1.2) and React frontend (1.4)
+```
+
+#### Phase 3a: Database Track - Subagent 1 (Items 11-15)
+```
+11. [TDD:Red] Write test_sqlite_connection and test_wal_mode_enabled
+12. [TDD:Red] Write test_sqlalchemy_engine_creation with proper session factory
+13. [TDD:Green] Implement SQLite connection with WAL mode
+14. [Impl:Database] Implement SQLAlchemy models and database config
+15. [TDD:Refactor] Clean up database configuration code
+```
+
+#### Phase 3b: Frontend Track - Subagent 2 (Items 16-20)
+```
+16. [TDD:Red] Write test_react_app_renders with TypeScript compilation check
+17. [TDD:Green] Implement React app with TypeScript
+18. [Impl:Frontend] Setup React with Vite and TypeScript configuration
+19. [TDD:Refactor] Enhance React component organization
+20. [Parallel:Coordinate] Synchronize frontend track with database completion
+```
+
+#### Phase 4: Backend Sequential (Items 21-25)
+```
+21. [Parallel:Merge] Integrate results from Database + Frontend parallel tracks
+22. [TDD:Red] Write test_fastapi_app_creation and test_health_endpoint
+23. [TDD:Green] Implement FastAPI app initialization
+24. [Impl:Backend] Build FastAPI app with controller-service-repository pattern
+25. [TDD:Refactor] Optimize FastAPI project structure
+```
+
+#### Phase 5: Integration & Validation (Items 26-30)
+```
+26. [Impl:DevEnv] Configure development tools and pre-commit hooks
+27. [Impl:Integration] Connect all components and verify integration
+28. [Validate:Performance] Check SQLite WAL mode performance with 64MB cache
+29. [Validate:Architecture] Verify controller-service-repository pattern compliance
+30. [Validate:Integration] Test full stack integration with sample CRUD operation
+```
+
+**DISTRIBUCIÓN MANTENIDA:** 40% TDD (12), 20% Doc (6), 20% Impl (6), 10% Parallel (3), 10% Validate (3)
+
+**REGLAS CRÍTICAS v2.1:**
+- Foundation ANTES que cualquier test o implementación
+- Documentation ANTES que implementación de cada subtarea
+- Parallel Launch DESPUÉS de foundation pero ANTES de implementation
+- Database track COMPLETO antes de Backend (dependency respected)
+- Frontend track puede ejecutar EN PARALELO con Database
+- Integration y Validation AL FINAL
+- Distribución 40/20/20/10/10 MANTENIDA estrictamente
+
+### 7.3. Validaciones Post-Generación (OBLIGATORIO)
+
+**Verificar ANTES de finalizar:**
+
+✅ **Foundation First:** Items 1-3 son [Impl:Structure] + [TDD] de structure
+✅ **Research Phase:** Items 4-9 son todos [Doc:*] para cada tecnología
+✅ **Parallel Launch:** Item 10 es [Parallel:Launch] después de foundation
+✅ **Database Track:** Items 11-15 completamente sobre database antes de backend
+✅ **Frontend Track:** Items 16-20 pueden ejecutar en paralelo con database
+✅ **Backend Sequential:** Items 21-25 vienen después de database completion
+✅ **Integration Final:** Items 26-30 son integration y validation
+✅ **Distribution Check:** 12 TDD + 6 Doc + 6 Impl + 3 Parallel + 3 Validate = 30
+✅ **Dependency Respect:** Cada TODO puede ejecutarse cuando llega su turno
+✅ **Doc Before Impl:** Para cada subtarea, [Doc] precede a [Impl]
 
 ## Proceso de Ejecución
 
@@ -233,32 +317,42 @@ Para cada subtarea, define:
 - **Checkpoints claros:** Validación continua del progreso
 - **Métricas comparables:** Permite análisis TEP v1 vs v2
 
-## Ejemplo de Uso v2
+## Ejemplo de Uso v2.1
 
 ```
 Usuario: /task-enrich
 
-Claude: Analizando Task #1: Setup Project Infrastructure con TEP v2...
+Claude: Ejecutando Task #1: Setup Project Infrastructure con protocolo TEP v2.1...
         
-        ✅ Análisis completado:
-        - Complejidad: 8/10
-        - Subtareas identificadas: 3
-        - Documentación: SQLite, FastAPI, React (consulta OBLIGATORIA)
-        - Estrategia: sequential-then-parallel con TODOs explícitos
+        ✅ Paso 7.1 - Análisis de dependencias:
+        - Subtareas: 1.1→1.2→1.3, 1.1→1.4, 1.5 requiere todas
+        - Paralelización: 1.2 (Database) + 1.4 (Frontend) en paralelo
+        - Backend 1.3 depende de Database 1.2 completada
+        
+        ✅ Paso 7.2 - Algoritmo de ordenamiento aplicado:
+        - Phase 1: Foundation (items 1-3)
+        - Phase 2: Research (items 4-9) 
+        - Phase 3: Parallel Launch (item 10)
+        - Phase 3a+3b: Database + Frontend tracks (items 11-20)
+        - Phase 4: Backend Sequential (items 21-25)
+        - Phase 5: Integration & Validation (items 26-30)
         
         📄 Archivo creado: .taskmaster/enriched/1-enriched.json
         
-        📊 Distribución de 20 TODOs generados:
-        - TDD: 8 todos (40%)
-        - Doc: 4 todos (20%) - OBLIGATORIO por subtarea
-        - Impl: 4 todos (20%)
-        - Parallel: 2 todos (10%)
-        - Validate: 2 todos (10%)
+        📊 30 TODOs generados en ORDEN DE EJECUCIÓN:
+        - TDD: 12 todos (40%) - distribuidos por fase
+        - Doc: 6 todos (20%) - Research phase (items 4-9)
+        - Impl: 6 todos (20%) - distribuidos por track
+        - Parallel: 3 todos (10%) - Launch/Coordinate/Merge
+        - Validate: 3 todos (10%) - Final phase (items 28-30)
         
-        ✅ Validaciones TEP v2:
-        - Cada subtarea tiene TODO [Doc] ✓
-        - Paralelización con TODOs explícitos ✓
-        - Distribución balanceada aplicada ✓
+        ✅ Validaciones TEP v2.1 pasadas:
+        - Foundation antes que tests ✓
+        - Documentation antes que implementation ✓
+        - Paralelización temprana (item 10) ✓
+        - Database track completo antes de Backend ✓
+        - Distribución 40/20/20/10/10 mantenida ✓
         
-        ¿Comenzamos con la implementación?
+        🚀 Tiempo estimado: 2.5h (vs 4h secuencial)
+        ¿Procedemos con ejecución optimizada?
 ```
