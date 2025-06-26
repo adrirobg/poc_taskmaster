@@ -10,12 +10,12 @@ Guarda el contexto actual completo antes de /clear para poder recuperarlo despu�
 
 ## Descripción
 
-Este comando crea un archivo de sesión que preserva:
-- Estado actual de TodoWrite
-- Decisiones de análisis tomadas
-- Referencias TEP y archivos enriquecidos
-- Próximos pasos planificados
-- Información del workspace (git status, archivos modificados)
+Este comando crea un archivo markdown de sesión que preserva:
+- Contexto técnico y decisiones críticas
+- Estado actual del desarrollo
+- Próximos pasos y validaciones pendientes
+- Context7 integration status
+- Referencias a archivos clave
 
 ## Cuándo Usar
 
@@ -38,101 +38,71 @@ git status
 git log --oneline -3
 ```
 
-### 2. Capturar Estado TodoWrite
+### 2. Capturar Contexto Técnico
 
-- Lista completa de todos actuales
-- Índice del todo en progreso
-- Contador de todos completados
-- Estado de cada todo (pending/in-progress/completed)
+- Current state y completed work
+- Technical context y key decisions
+- Context7 integration status
+- Critical insights y pending validation
 
-### 3. Referenciar Archivos TEP
+### 3. Documentar Estado Actual
 
-- Archivo enriquecido asociado (si existe)
-- Análisis previos realizados
-- Decisiones de arquitectura tomadas
+- Files created/modified
+- Next steps required
+- Implementation gaps identified
+- Validation points needed
 
-### 4. Documentar Decisiones
+### 4. Crear Archivo de Sesión
 
-- Estrategia de paralelización elegida
-- Enfoque TDD decidido
-- Fuentes de documentación identificadas
-- Orden de implementación planificado
+**Ubicación:** `.taskmaster/sessions/session-<timestamp>-<description>.md`
 
-### 5. Crear Archivo de Sesión
+**Formato Markdown:**
+```markdown
+# Session Context: [Description]
+**Date:** YYYY-MM-DD
+**Focus:** [Main objective]
 
-**Ubicación:** `.taskmaster/sessions/session-<timestamp>-task-<id>.json`
+## Current State
+- [Key technical status]
+- [Integration points]
+- [Completed work summary]
 
-**Contenido:**
-```json
-{
-  "sessionId": "session-YYYY-MM-DD-HH:MM",
-  "savedAt": "ISO-8601 timestamp",
-  "taskContext": {
-    "currentTaskId": "string",
-    "taskTitle": "string", 
-    "enrichedFile": "path|null",
-    "status": "analysis-complete|implementation-started|blocked"
-  },
-  "workspaceState": {
-    "gitBranch": "current-branch",
-    "gitStatus": "git status output",
-    "modifiedFiles": ["list of files"],
-    "lastCommit": "commit hash and message"
-  },
-  "todoState": {
-    "todos": [
-      {
-        "id": "string",
-        "content": "todo description with prefixes",
-        "status": "pending|in-progress|completed",
-        "completedAt": "timestamp|null"
-      }
-    ],
-    "currentTodoIndex": number,
-    "completedCount": number,
-    "estimatedRemaining": number
-  },
-  "decisions": {
-    "parallelizationStrategy": "sequential|parallel|hybrid",
-    "subtaskOrder": ["ordered list"],
-    "tddApproach": "strict|flexible|test-after",
-    "documentationSources": {
-      "library": "context7-id"
-    }
-  },
-  "progress": {
-    "timeElapsed": "minutes since start",
-    "estimatedRemaining": "minutes to completion",
-    "blockers": ["current blockers"],
-    "achievements": ["completed milestones"]
-  },
-  "nextSteps": [
-    "immediate next action",
-    "follow-up tasks",
-    "integration points to verify"
-  ],
-  "recoveryInstructions": "specific instructions for /context-recover"
-}
+## Critical Insights
+- [Key discoveries]
+- [Technical decisions made]
+- [Implementation gaps found]
+
+## Next Steps Required
+- [Immediate actions]
+- [Validation points]
+- [Testing requirements]
+
+## Technical Context
+- [Files modified/created]
+- [Configuration changes]
+- [Integration status]
+
+## Session Recovery Instructions
+[Specific guidance for LLM to continue work]
 ```
 
 ## Output del Comando
 
 ```
-💾 Guardando sesión actual...
+💾 Guardando contexto de sesión...
 
 ✅ Contexto capturado:
-- Task: #1 - Setup Project Infrastructure
-- TodoWrite: 17 todos (3 completados, 14 pendientes)  
-- TEP analysis: .taskmaster/enriched/1-enriched.json
-- Git status: 2 modified files
-- Decisiones: TDD estricto, parallelización hybrid
+- Focus: TEP v2.3 optimization and Context7 integration
+- Status: Optimization completed, ready for full test
+- Key files: .claude/commands/task-enrich.md (optimized)
+- Integration: Context7 MCP validated and working
 
-📄 Sesión guardada: .taskmaster/sessions/session-2024-12-25-16:45-task-1.json
+📄 Sesión guardada: .taskmaster/sessions/session-2025-01-25-tep-v23-optimization.md
 
 🎯 Para recuperar después de /clear:
-   Usa: /context-recover
+   Usa: /session-recover
 
-⚠️  Recuerda hacer commit de cambios importantes antes de /clear
+⚠️  Archivo markdown diseñado para consumo LLM
 ```
 
 ## Verificaciones Previas
