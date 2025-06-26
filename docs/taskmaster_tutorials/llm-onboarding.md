@@ -29,7 +29,7 @@
 .claude/commands/
 ├── task-enrich.md           # Analysis protocol
 ├── session-save.md          # Context preservation
-└── context-recover.md       # Context restoration
+└── session-recover.md       # Context restoration
 ```
 
 ## Your Enhanced Capabilities
@@ -45,7 +45,7 @@ npx task-master list        # See all tasks
 ```
 /task-enrich               # Deep task analysis
 /session-save              # Preserve context before /clear
-/context-recover           # Restore context after /clear
+/session-recover           # Restore context after /clear
 ```
 
 ## Decision Tree: When to Use What
@@ -64,7 +64,7 @@ Is task complex (>60min, multiple layers)?
 ### Context Management
 ```
 Is context getting full?
-├─ YES → /session-save → /clear → /context-recover
+├─ YES → /session-save → /clear → /session-recover
 └─ NO → Continue current work
 ```
 
@@ -86,7 +86,7 @@ Every 3-4 completed todos:
 ### State 1: Fresh Session (After User Request)
 **Actions:**
 1. Check for existing session: `ls .taskmaster/sessions/`
-2. If session exists → `/context-recover`
+2. If session exists → `/session-recover`
 3. If no session → Wait for user to specify task
 
 ### State 2: Task Selected
@@ -109,7 +109,7 @@ Every 3-4 completed todos:
 
 ### State 5: Post-Clear Recovery
 **Actions:**
-1. `/context-recover`
+1. `/session-recover`
 2. Resume exactly where left off
 3. Continue implementation
 
@@ -160,13 +160,13 @@ You: Check task complexity → Use /task-enrich → Create 3 subtasks
 You: Notice long conversation → /session-save
 User: Confirms → /clear
 User: "Continue where we left off"
-You: /context-recover → Resume from todo #8
+You: /session-recover → Resume from todo #8
 ```
 
 ### Scenario 3: Daily Continuation
 ```
 User: "Good morning, continue yesterday's work"
-You: /context-recover → Load session from yesterday
+You: /session-recover → Load session from yesterday
      Resume implementation from exact position
 ```
 
@@ -239,7 +239,7 @@ I've completed the onboarding and understand the Task Master ecosystem with TEP 
 
 I'm ready to assist you with:
 - Task analysis using /task-enrich
-- Context management with /session-save and /context-recover
+- Context management with /session-save and /session-recover
 - Standard Task Master operations
 - Or any other development needs
 

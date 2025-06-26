@@ -1,118 +1,85 @@
-# Task Enrichment Protocol (TEP) v2.3
+# /task-enrich
 
-Enrich Task Master tasks for optimal Claude Code workflow with Context7 integration.
+Enriquece la tarea actual de Task Master con consideraciones avanzadas para optimizar tu implementación.
 
-## Core Features
-- **Phase-based execution:** 4 phases, 10-15 TODOs total
-- **Context7 integration:** Just-in-time documentation with 90%+ relevance
-- **Adaptive sizing:** 10 TODOs (simple) or 15 TODOs (medium)
-- **TDD structure:** Test-driven development focus
+**MODO DE PENSAMIENTO: Activa "think hard" para este análisis.**
 
-## Protocol Steps
+## Principios de Enriquecimiento
+- **Práctico sobre teórico**: Enfócate en lo que se necesita ahora, no en el futuro
+- **Específico sobre genérico**: Topics de Context7 precisos, no genéricos
+- **Simple sobre complejo**: Si dudas entre dos enfoques, elige el más simple
+- **80/20**: Identifica el 20% de trabajo que dará 80% del valor
 
-### 1. Task Analysis
-```bash
-npx task-master next
-npx task-master show <id>
+## Uso
+
+```
+/task-enrich
 ```
 
-**Analyze:**
-- Complexity (1-10 scale)
-- Subtask count and technology stack
-- If >5 subtasks or >3 tech stacks → suggest split
+## Proceso
 
-**Adaptive Sizing:**
-- **Simple** (1-3 complexity): 10 TODOs  
-- **Medium** (4-6 complexity): 15 TODOs
-- **Complex** (7+): Split task first
+1. **Obtén la tarea actual**
+   - Ejecuta `task-master show <id>` para ver los detalles de la tarea
+   - Lee cuidadosamente la descripción y requisitos
 
-### 2. Phase Planning
+2. **Reflexiona sobre estos aspectos clave**
+   - ¿Qué tecnologías principales están involucradas?
+   - ¿Qué documentación Context7 será útil? (usa `mcp__context7__resolve-library-id` para encontrar IDs)
+   - ¿Cómo aplicarías TDD para esta tarea?
+   - ¿Qué partes se pueden implementar en paralelo?
 
-| Phase | % | TODOs | Focus |
-|-------|---|-------|-------|
-| Foundation | 20% | 2-3 | Project structure |
-| Research | 27% | 3-4 | Technology setup |
-| Implementation | 40% | 4-6 | Core features |
-| Integration | 13% | 1-2 | Testing & validation |
+3. **Genera un artefacto enriquecido**
+   - Crea un archivo en `.taskmaster/enriched/<task-id>-enriched.md`
+   - Usa un formato markdown natural y legible
+   - Incluye IDs de Context7, enfoque TDD y oportunidades de paralelización
 
-### 3. Context7 Integration
+4. **Usa el artefacto como guía**
+   - Cuando implementes la tarea, consulta primero tu artefacto
+   - Busca la documentación Context7 justo antes de codear cada parte
+   - Sigue el enfoque TDD que planeaste
 
-**When TODO requires library knowledge:**
-1. **Analyze specific need** - What exact patterns does this TODO need?
-2. **Extract focused topic** - Be specific, not generic
-3. **Make Context7 call** - Use `mcp__context7__resolve-library-id` + `mcp__context7__get-library-docs`
-4. **Apply immediately** - Enhance TODO with real patterns
+## Formato Sugerido del Artefacto
 
-**Token Budget:** 400-1000 tokens based on TODO complexity
+```markdown
+# Task Enrichment: [Título de la tarea]
 
-**Good Topics Examples:**
-- "SQLAlchemy engine configuration with connection pooling"
-- "FastAPI dependency injection for database sessions"  
-- "React Testing Library async component testing"
+## Análisis de la Tarea
+[Breve resumen de lo que entiendes que hay que hacer]
 
-### 4. TDD Structure
+## Tecnologías Identificadas
+- [Tecnología 1]: `[Context7 ID]`
+- [Tecnología 2]: `[Context7 ID]`
 
-For each TODO, define:
-- **Failing Tests** - Write tests first (unit + integration)
-- **Minimal Implementation** - Simplest code to pass tests
-- **Refactoring Goals** - Post-green improvements
-- **Integration Points** - How it connects to other parts
+## Documentación a Consultar
+Antes de implementar cada parte:
+- Para [componente]: Context7 `[ID]` topic: "[tema específico]"
+- Para [otro componente]: Context7 `[ID]` topic: "[tema específico]"
 
-### 5. Generate Enriched JSON
+## Enfoque TDD
+1. **Tests primero**
+   - [Test 1]: [qué debe verificar]
+   - [Test 2]: [qué debe verificar]
 
-**Location:** `.taskmaster/enriched/<task-id>-enriched.json`
+2. **Implementación mínima**
+   - [Qué implementar para pasar los tests]
 
-```json
-{
-  "taskId": "string",
-  "originalTask": { /* from task-master */ },
-  "analysis": {
-    "complexity": 1-10,
-    "technologies": ["tech1", "tech2"],
-    "todoCount": 10-15
-  },
-  "subtasks": [
-    {
-      "id": "x.y", 
-      "title": "string",
-      "description": "string",
-      "phase": "foundation|research|implementation|integration",
-      "tddStructure": {
-        "failingTests": ["test descriptions"],
-        "implementation": "minimal code to pass",
-        "refactoring": ["improvement goals"]
-      },
-      "context7Notes": "specific topics needed for this TODO"
-    }
-  ]
-}
+3. **Refactoring**
+   - [Mejoras a considerar después]
+
+## Oportunidades de Paralelización
+Después del setup inicial:
+- **Agent A**: [Qué puede hacer en paralelo]
+- **Agent B**: [Qué puede hacer en paralelo]
+- **Punto de sincronización**: [Cuándo reunir resultados]
 ```
 
-### 6. Generate TODOs
+## Recordatorio Importante
 
-Create 10-15 TODOs following phase distribution:
-- Use format: `[Type:Category] Specific action (Context7: topic if needed)`
-- Include TDD structure where relevant
-- Note Context7 integration opportunities
+**Este es un momento de planificación y reflexión.** No implementes código todavía, solo genera el plan enriquecido que te guiará durante la implementación real.
 
-**Examples:**
-- `[Structure] Create project directories`
-- `[Setup:Database] Configure SQLite with WAL (Context7: SQLAlchemy engine config)`
-- `[TDD:Red] Write test for user creation`
-- `[TDD:Green] Implement user model to pass tests`
+El objetivo es que cuando llegue el momento de implementar, tengas un mapa claro con:
+- Las mejores fuentes de documentación identificadas
+- Un enfoque TDD estructurado
+- Oportunidades de optimización mediante paralelización
 
-## Example Workflow
-
-1. **Analyze task:** `task-master show 1` → Complexity 5, FastAPI+SQLAlchemy
-2. **Size decision:** Medium complexity → 15 TODOs  
-3. **Phase planning:** 3+4+6+2 distribution
-4. **Context7 strategy:** Just-in-time calls per TODO with library needs
-5. **Generate JSON:** Include analysis, subtasks with Context7 notes
-6. **Create TODOs:** Phase-based with specific Context7 integration points
-
-## Key Benefits
-
-- **Phase-based execution** for clean LLM workflow
-- **Context7 just-in-time integration** with 90%+ relevance  
-- **Adaptive sizing** based on task complexity
-- **TDD focus** for quality implementation
+Recuerda: "El TEP es una guía para el LLM, no una herramienta determinista."
