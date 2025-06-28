@@ -1,0 +1,93 @@
+{
+	"meta": {
+		"generatedAt": "2025-06-27T12:19:49.545Z",
+		"tasksAnalyzed": 10,
+		"totalTasks": 10,
+		"analysisCount": 10,
+		"thresholdScore": 5,
+		"projectName": "Taskmaster",
+		"usedResearch": true
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 1,
+			"taskTitle": "Setup Project Infrastructure and Database Foundation",
+			"complexityScore": 7,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Break down into: 1) Project directory structure setup, 2) SQLite database initialization with optimizations, 3) FastAPI backend scaffolding with patterns, 4) React frontend initialization with TypeScript/Vite, 5) Dependency management and configuration",
+			"reasoning": "High complexity due to multiple technology stacks (SQLite, FastAPI, React), specific configuration requirements (WAL mode, FTS5), and architectural patterns that need proper foundation"
+		},
+		{
+			"taskId": 2,
+			"taskTitle": "Implement Core Data Models and Database Schema",
+			"complexityScore": 8,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Create subtasks for: 1) Project model with validations, 2) Note model with constraints, 3) NoteLink bidirectional relationships, 4) Tag hierarchical structure, 5) NoteVersion model, 6) Alembic migrations and indexes",
+			"reasoning": "Complex due to multiple interconnected models, specific constraints (UUID, unique fields, JSON metadata), relationships (foreign keys, bidirectional links), and performance considerations (indexes, soft delete)"
+		},
+		{
+			"taskId": 3,
+			"taskTitle": "Build FastAPI CRUD Endpoints and Service Layer",
+			"complexityScore": 8,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Divide into: 1) Project controller endpoints, 2) Note controller endpoints with auto-save, 3) Service layer business logic, 4) Repository pattern implementation, 5) Pydantic schemas and validation, 6) Bulk operations and error handling",
+			"reasoning": "High complexity from multiple architectural layers, RESTful design requirements, auto-save functionality, proper error handling, validation, and bulk operations support"
+		},
+		{
+			"taskId": 4,
+			"taskTitle": "Create React Frontend Foundation and Routing",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Split into: 1) TypeScript configuration and project structure, 2) React Router setup and navigation, 3) Zustand state management integration, 4) Layout components and theming, 5) API client with interceptors",
+			"reasoning": "Moderate complexity involving modern React setup, TypeScript strict mode, state management, theming system, and API integration patterns"
+		},
+		{
+			"taskId": 5,
+			"taskTitle": "Implement Project Management Interface",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Create tasks for: 1) Project creation form with validation, 2) Project list view with cards, 3) Project templates system, 4) Project detail view, 5) Drag & drop organization, 6) Responsive design implementation",
+			"reasoning": "Complex UI implementation with multiple interactive features, drag & drop functionality, template system, bulk operations, and responsive design requirements"
+		},
+		{
+			"taskId": 6,
+			"taskTitle": "Build Advanced Markdown Editor with Auto-Save",
+			"complexityScore": 9,
+			"recommendedSubtasks": 7,
+			"expansionPrompt": "Break into: 1) Editor integration (CodeMirror/Monaco), 2) Markdown syntax and keybindings, 3) Auto-save with debounce logic, 4) Split-pane preview implementation, 5) Toolbar and formatting features, 6) Code block highlighting, 7) Focus mode and full-screen",
+			"reasoning": "Very complex due to editor integration, real-time features, auto-save with network handling, multiple UI modes, performance considerations with large documents, and keyboard shortcuts"
+		},
+		{
+			"taskId": 7,
+			"taskTitle": "Implement Full-Text Search with FTS5 and Advanced Filtering",
+			"complexityScore": 8,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Divide into: 1) FTS5 configuration and indexes, 2) Search ranking algorithm, 3) Real-time search API with debouncing, 4) Snippet generation and highlighting, 5) Advanced filters implementation, 6) Search caching and suggestions",
+			"reasoning": "High complexity from FTS5 integration, custom ranking algorithm, real-time performance requirements, snippet generation, multiple filter types, and caching strategy"
+		},
+		{
+			"taskId": 8,
+			"taskTitle": "Create Bidirectional Linking System and Backlinks",
+			"complexityScore": 8,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Split into: 1) WikiLink regex parser, 2) Real-time link detection and auto-completion, 3) NoteLink service for relationships, 4) Backlinks panel with context, 5) Link validation and broken link detection",
+			"reasoning": "Complex parsing requirements, real-time detection while typing, bidirectional relationship management, UI integration, and validation logic with suggestions"
+		},
+		{
+			"taskId": 9,
+			"taskTitle": "Build Flexible Tagging System with Hierarchy",
+			"complexityScore": 7,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Create subtasks for: 1) Hierarchical tag model implementation, 2) Tag auto-completion system, 3) Tag cloud visualization, 4) Tag management interface, 5) Tag filtering and search integration",
+			"reasoning": "Moderate to high complexity from hierarchical data structure, auto-completion features, visualization requirements, and integration with existing search functionality"
+		},
+		{
+			"taskId": 10,
+			"taskTitle": "Add Note Versioning and Data Protection Features",
+			"complexityScore": 8,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Break down into: 1) NoteVersion model and storage, 2) Version creation and conflict detection, 3) Version history UI with diffs, 4) Automated backup system, 5) Export/import functionality, 6) Data integrity tools",
+			"reasoning": "High complexity due to version management, conflict resolution, diff visualization, automated backups, data migration capabilities, and integrity checking requirements"
+		}
+	]
+}

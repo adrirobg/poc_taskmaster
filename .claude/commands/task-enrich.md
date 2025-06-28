@@ -33,10 +33,10 @@ Enriquece la tarea actual de Task Master con consideraciones avanzadas para opti
    - Usa un formato markdown natural y legible
    - Incluye IDs de Context7, enfoque TDD y oportunidades de paralelización
 
-4. **Usa el artefacto como guía**
-   - Cuando implementes la tarea, consulta primero tu artefacto
-   - Busca la documentación Context7 justo antes de codear cada parte
-   - Sigue el enfoque TDD que planeaste
+4. **Usa el artefacto como fuente de código**
+   - Ejecuta las consultas Context7 ANTES de escribir código
+   - Copia y adapta los snippets obtenidos
+   - No uses tu conocimiento base si Context7 tiene una versión más actual
 
 ## Formato Sugerido del Artefacto
 
@@ -50,10 +50,10 @@ Enriquece la tarea actual de Task Master con consideraciones avanzadas para opti
 - [Tecnología 1]: `[Context7 ID]`
 - [Tecnología 2]: `[Context7 ID]`
 
-## Documentación a Consultar
-Antes de implementar cada parte:
-- Para [componente]: Context7 `[ID]` topic: "[tema específico]"
-- Para [otro componente]: Context7 `[ID]` topic: "[tema específico]"
+## Código a Obtener de Context7
+Para implementar cada componente, PRIMERO obtén código actualizado:
+- Para [componente]: Context7 `[ID]` topic: "[tema específico]" → Usa ese código
+- Para [otro componente]: Context7 `[ID]` topic: "[tema específico]" → Usa ese código
 
 ## Enfoque TDD
 1. **Tests primero**
@@ -72,6 +72,8 @@ Después del setup inicial:
 - **Agent B**: [Qué puede hacer en paralelo]
 - **Punto de sincronización**: [Cuándo reunir resultados]
 ```
+
+**Nota:** No añadas secciones adicionales. El artefacto termina en "Oportunidades de Paralelización".
 
 ## Recordatorio Importante
 
