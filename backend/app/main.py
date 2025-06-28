@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
     # Startup
     logger.info("Starting up...")
-    db_status = init_database()
+    db_status = await init_database()
     logger.info(f"Database initialized: {db_status}")
     yield
     # Shutdown

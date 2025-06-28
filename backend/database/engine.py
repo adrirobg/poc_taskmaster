@@ -1,14 +1,14 @@
-from sqlalchemy import create_engine, event
-from sqlalchemy.engine import Engine
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine
 from sqlalchemy.pool import StaticPool
+from sqlalchemy import event
 import os
 
 # From L2-8 + L1335: SQLite engine creation with event listeners for PRAGMA
 sqlite_file_name = os.environ.get("DATABASE_FILE", "database.db")
-sqlite_url = f"sqlite:///{sqlite_file_name}"
+sqlite_url = f"sqlite+aiosqlite:///{sqlite_file_name}"
 
 # From L2-8: Create engine with check_same_thread=False for FastAPI
-engine = create_engine(
+engine = create_async_engine(
     sqlite_url,
     connect_args={"check_same_thread": False},
     poolclass=StaticPool,
@@ -16,7 +16,7 @@ engine = create_engine(
 )
 
 # From L1335: Event listener to set SQLite PRAGMA statements
-@event.listens_for(Engine, "connect")
+@event.listens_for(engine.sync_engine, "connect")
 def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor = dbapi_connection.cursor()
     
