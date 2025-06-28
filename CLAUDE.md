@@ -194,7 +194,9 @@ This is how you operate. Study these examples.
 
 <step name="2_SEARCH">
 🔍 SEARCHING: FastAPI pattern for a GET endpoint returning a list of Pydantic models.
-📡 Context7: /tiangolo/fastapi → "fastapi get endpoint return list of pydantic models"
+📡 Context7 Steps (example, adapt to each case):
+  1. resolve-library-id (context7 MCP Server) {"libraryName":"Pydantic"}
+  2. get-library-docs (context7 MCP Server) {"topic":"FastAPI GET endpoint returning a list of Pydantic models","context7CompatibleLibraryID":"/tiangolo/fastapi"}
 </step>
 
 <step name="3_ANALYZE">
@@ -263,8 +265,8 @@ This is a critical failure because it ignores the C7DD protocol, bypasses the es
 
 # Task Master AI - Claude Code Integration Guide
 
-**Proyecto:** poc_taskmaster - Sistema de gestión de tareas con IA para desarrollo  
-**Repositorio:** https://github.com/adrirobg/poc_taskmaster  
+**Proyecto:** poc_taskmaster - Sistema de gestión de tareas con IA para desarrollo
+**Repositorio:** https://github.com/adrirobg/poc_taskmaster
 **Desarrollador:** adrirobg
 
 ## Essential Commands
